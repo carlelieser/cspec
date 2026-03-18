@@ -74,12 +74,16 @@ All specs live under `.cspec/` in your project, organized by domain:
   plans/
     backend-skeleton.md
     frontend-skeleton.md
-    auth/
-      signup-backend.md
-      signup-frontend.md
-    billing/
-      checkout-backend.md
-      checkout-frontend.md
+    backend/
+      auth/
+        signup.md
+      billing/
+        checkout.md
+    frontend/
+      auth/
+        signup.md
+      billing/
+        checkout.md
 ```
 
 ## No Implementation Details
