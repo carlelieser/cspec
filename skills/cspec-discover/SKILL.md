@@ -86,8 +86,10 @@ This is the authoritative definition of all valid slice statuses. Each phase upd
 | `written` | `/cspec-write` | Spec written for this slice |
 | `foundation-reconciled` | `/cspec-foundation` | Spec was modified during foundation conflict resolution |
 | `reviewed` | `/cspec-review` | Spec passed all validation checks |
+| `unplanned` | `/cspec-blueprint` | Spec reviewed, no blueprint written yet |
+| `planned` | `/cspec-blueprint` | Backend + frontend blueprint artifacts written |
 
-**Transitions:** `unwritten` → `written` → `reviewed` is the normal flow. `foundation-reconciled` is applied only to slices that `/cspec-foundation` modifies during conflict resolution — slices with no conflicts skip this status and go directly from `written` to `reviewed`.
+**Transitions:** `unwritten` → `written` → `reviewed` is the normal flow. `foundation-reconciled` is applied only to slices that `/cspec-foundation` modifies during conflict resolution — slices with no conflicts skip this status and go directly from `written` to `reviewed`. After review, `/cspec-blueprint` on first run backfills all reviewed slices to `reviewed` → `unplanned`, then advances each to `planned` after blueprint artifacts are written. The full chain is: `unwritten` → `written` → `reviewed` → `unplanned` → `planned`.
 
 The manifest also gains a `foundation_derived: true` line (added below the Tech Preferences section) when `/cspec-foundation` completes.
 
