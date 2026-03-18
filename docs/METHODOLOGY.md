@@ -15,20 +15,23 @@ C-Spec produces complete, interconnected specifications for MVPs. No implementat
 
 | Phase | Skill | Input | Output |
 |-------|-------|-------|--------|
-| 1. Discovery | `/cspec-discover` | Product idea or document | `.cspec/manifest.md`, `.cspec/user-stories.md` |
-| 2. Spec Writing | `/cspec-write` | Manifest | `.cspec/<domain>/<slice>.md` |
-| 3. Foundation | `/cspec-foundation` | All slice specs | `.cspec/foundation.md` |
-| 4. Review | `/cspec-review` | All specs | `.cspec/review-report.md` |
+| 1. Discovery | `/cspec-discover` | Product idea or document | `.cspec/specs/manifest.md`, `.cspec/specs/user-stories.md` |
+| 2. Spec Writing | `/cspec-write` | Manifest | `.cspec/specs/<domain>/<slice>.md` |
+| 3. Foundation | `/cspec-foundation` | All slice specs | `.cspec/specs/foundation.md` |
+| 4. Review | `/cspec-review` | All specs | `.cspec/specs/review-report.md` |
 | 5. Blueprint | `/cspec-blueprint` | Foundation + reviewed slice specs | `.cspec/plans/backend-skeleton.md`, `.cspec/plans/frontend-skeleton.md`, per-slice artifacts |
 
 ## Output Structure
 
 ```
 .cspec/
-  manifest.md              # Slice inventory, domains, ordering, statuses
-  user-stories.md           # User stories grouped by domain (source of truth for slices)
-  foundation.md             # Tech stack, shared models, conventions
-  review-report.md          # Validation results
+  specs/
+    manifest.md              # Slice inventory, domains, ordering, statuses
+    user-stories.md           # User stories grouped by domain (source of truth for slices)
+    foundation.md             # Tech stack, shared models, conventions
+    review-report.md          # Validation results
+    <domain>/
+      <slice>.md              # Individual slice specs
   plans/
     backend-skeleton.md
     frontend-skeleton.md
@@ -38,8 +41,6 @@ C-Spec produces complete, interconnected specifications for MVPs. No implementat
     frontend/
       <domain>/
         <slice>.md
-  <domain>/
-    <slice>.md              # Individual slice specs
 ```
 
 ## Manifest
@@ -48,7 +49,7 @@ Single source of truth for discovered slices. Contains: product summary, tech pr
 
 ## User Stories
 
-Separate reviewable document (`.cspec/user-stories.md`) containing all user stories grouped by domain. Each story maps to a slice in the manifest and uses the format "As a [user], I want to [action], so that [outcome]." User stories are the source of truth for what each slice should do — editing a story should be followed by re-running `/cspec-write` for the affected slice.
+Separate reviewable document (`.cspec/specs/user-stories.md`) containing all user stories grouped by domain. Each story maps to a slice in the manifest and uses the format "As a [user], I want to [action], so that [outcome]." User stories are the source of truth for what each slice should do — editing a story should be followed by re-running `/cspec-write` for the affected slice.
 
 **Statuses:** `unwritten` → `written` → `reviewed` → `unplanned` → `planned`. Slices modified during foundation conflict resolution pass through `foundation-reconciled` before `reviewed`. `/cspec-blueprint` sets `unplanned` on slices that have not yet been blueprinted, and `planned` once skeleton artifacts are generated. See the authoritative Slice Status Lifecycle in `/cspec-discover`.
 
@@ -56,7 +57,7 @@ Updated by each phase. `/cspec-foundation` also sets `foundation_derived: yes` i
 
 ## Slice Spec Template
 
-Written from the corresponding user story in `.cspec/user-stories.md`.
+Written from the corresponding user story in `.cspec/specs/user-stories.md`.
 
 **Prose:** Purpose, User Flow
 

@@ -4,7 +4,7 @@
 
 **Goal:** Build four Claude skills (`/cspec-discover`, `/cspec-write`, `/cspec-foundation`, `/cspec-review`) that produce complete, interconnected MVP specifications.
 
-**Architecture:** Four independent skills, each in its own directory under `~/.claude/skills/`. Each skill has a `SKILL.md` with YAML frontmatter and follows the methodology defined in `docs/METHODOLOGY.md`. Skills read/write to `.cspec/` in the user's working directory.
+**Architecture:** Four independent skills, each in its own directory under `~/.claude/skills/`. Each skill has a `SKILL.md` with YAML frontmatter and follows the methodology defined in `docs/METHODOLOGY.md`. Skills read/write to `.cspec/specs/` in the user's working directory.
 
 **Tech Stack:** Claude skills (markdown with YAML frontmatter), no code dependencies.
 
@@ -56,7 +56,7 @@ description: Use when starting a new product specification, gathering requiremen
    - Present findings to user for validation
    - Ask follow-up questions to fill gaps (hybrid mode)
 
-5. **Manifest Output** — Exact template for `.cspec/manifest.md`:
+5. **Manifest Output** — Exact template for `.cspec/specs/manifest.md`:
    ```markdown
    # [Product Name] — Manifest
 
@@ -116,7 +116,7 @@ description: Use when writing detailed specifications for discovered feature sli
 
 1. **Overview** — Writes self-contained slice specs from the manifest.
 
-2. **Prerequisites** — Must have `.cspec/manifest.md`. If not found, direct user to run `/cspec-discover` first.
+2. **Prerequisites** — Must have `.cspec/specs/manifest.md`. If not found, direct user to run `/cspec-discover` first.
 
 3. **Invocation Modes:**
    - **Single** — User specifies a slice name or the skill presents unwritten slices for selection.
@@ -128,7 +128,7 @@ description: Use when writing detailed specifications for discovered feature sli
    - Write the spec following the template
    - Update manifest status to "written"
 
-5. **Slice Spec Template** — Exact template for `.cspec/<domain>/<slice>.md`:
+5. **Slice Spec Template** — Exact template for `.cspec/specs/<domain>/<slice>.md`:
    ```markdown
    # [Slice Name]
 
@@ -219,10 +219,10 @@ description: Use when all feature slice specs have been written and you need to 
 
 1. **Overview** — Derives the foundation spec by reading all slice specs, extracting shared concerns, and reconciling conflicts.
 
-2. **Prerequisites** — Must have `.cspec/manifest.md` with at least some slices in "written" status. Warn if not all slices are written.
+2. **Prerequisites** — Must have `.cspec/specs/manifest.md` with at least some slices in "written" status. Warn if not all slices are written.
 
 3. **Derivation Process:**
-   - Read all slice specs under `.cspec/`
+   - Read all slice specs under `.cspec/specs/`
    - Extract entities, services, and patterns that appear in multiple slices
    - Identify conflicts (same entity with different fields across slices)
    - For each conflict: flag to user, propose resolution, get approval
@@ -231,7 +231,7 @@ description: Use when all feature slice specs have been written and you need to 
    - Synthesize the foundation spec
    - Set `foundation_derived: true` in manifest
 
-4. **Foundation Spec Template** — Exact template for `.cspec/foundation.md`:
+4. **Foundation Spec Template** — Exact template for `.cspec/specs/foundation.md`:
    ```markdown
    # [Product Name] — Foundation
 
@@ -320,7 +320,7 @@ description: Use when all specs (slices and foundation) have been written and yo
 
 1. **Overview** — Cross-validates the entire spec suite for consistency, completeness, coverage, and dependency integrity.
 
-2. **Prerequisites** — Must have `.cspec/foundation.md` and at least one slice spec. Warn if manifest shows unwritten slices.
+2. **Prerequisites** — Must have `.cspec/specs/foundation.md` and at least one slice spec. Warn if manifest shows unwritten slices.
 
 3. **Validation Checks** — Four categories, each with specific checks:
 
@@ -346,7 +346,7 @@ description: Use when all specs (slices and foundation) have been written and yo
    - Each slice's declared dependencies exist in the manifest
    - Dependencies would be built before the slices that need them
 
-4. **Report Template** — Exact template for `.cspec/review-report.md`:
+4. **Report Template** — Exact template for `.cspec/specs/review-report.md`:
    ```markdown
    # Spec Review Report
 
@@ -363,7 +363,7 @@ description: Use when all specs (slices and foundation) have been written and yo
    ### [Category: Completeness/Consistency/Coverage/Dependency]
 
    **[Issue title]**
-   - **Location:** `.cspec/domain/slice.md`, section [name]
+   - **Location:** `.cspec/specs/domain/slice.md`, section [name]
    - **Finding:** [specific description]
    - **Suggested fix:** [concrete recommendation]
    - **Re-run:** `/cspec-write` for [slice] | `/cspec-foundation` | `/cspec-discover`

@@ -35,10 +35,10 @@ description: Use when specs are complete and you need implementation blueprints 
 
 When `.cspec/` exists with a foundation and slice specs:
 
-- Reads `.cspec/foundation.md` for architecture, tech stack, shared data models, and conventions
-- Reads all slice specs under `.cspec/<domain>/<slice>.md`
-- Reads `.cspec/manifest.md` for ordering and dependencies
-- Reads `.cspec/user-stories.md` for the purpose and outcome context behind each slice
+- Reads `.cspec/specs/foundation.md` for architecture, tech stack, shared data models, and conventions
+- Reads all slice specs under `.cspec/specs/<domain>/<slice>.md`
+- Reads `.cspec/specs/manifest.md` for ordering and dependencies
+- Reads `.cspec/specs/user-stories.md` for the purpose and outcome context behind each slice
 
 **Prerequisites:** Foundation must exist and individual slices must be in `reviewed` status to be blueprinted. Slices not yet in `reviewed` status are skipped with a warning. If no slices are reviewed, directs user to run the appropriate earlier phase.
 

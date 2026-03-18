@@ -20,7 +20,7 @@ C-Spec works in five phases, each invoked as a separate skill:
 /cspec-discover
 ```
 
-Interview-driven or document-driven discovery of your product idea. Identifies all vertical slices (user-story granularity), groups them into domains, writes user stories, and outputs a structured manifest to `.cspec/manifest.md` and user stories to `.cspec/user-stories.md`. Review and adjust the user stories before moving to the next phase — they're the source of truth for what each slice should do.
+Interview-driven or document-driven discovery of your product idea. Identifies all vertical slices (user-story granularity), groups them into domains, writes user stories, and outputs a structured manifest to `.cspec/specs/manifest.md` and user stories to `.cspec/specs/user-stories.md`. Review and adjust the user stories before moving to the next phase — they're the source of truth for what each slice should do.
 
 ### 2. Write
 
@@ -36,7 +36,7 @@ Writes detailed specs for each slice — one at a time or in batch. Each spec in
 /cspec-foundation
 ```
 
-Reads all written slice specs, extracts shared entities and patterns, reconciles conflicts, and synthesizes `.cspec/foundation.md` — the tech stack, project structure, shared data models, conventions, and services that all slices depend on.
+Reads all written slice specs, extracts shared entities and patterns, reconciles conflicts, and synthesizes `.cspec/specs/foundation.md` — the tech stack, project structure, shared data models, conventions, and services that all slices depend on.
 
 ### 4. Review
 
@@ -44,7 +44,7 @@ Reads all written slice specs, extracts shared entities and patterns, reconciles
 /cspec-review
 ```
 
-Cross-validates every spec for completeness, consistency, coverage, and dependency integrity. Produces a report at `.cspec/review-report.md` with categorized findings and tells you exactly which phase to re-run for each issue.
+Cross-validates every spec for completeness, consistency, coverage, and dependency integrity. Produces a report at `.cspec/specs/review-report.md` with categorized findings and tells you exactly which phase to re-run for each issue.
 
 ### 5. Blueprint
 
@@ -56,21 +56,22 @@ Reads the foundation and reviewed slice specs, then produces implementation blue
 
 ## Output
 
-All specs live under `.cspec/` in your project, organized by domain:
+All specs live under `.cspec/specs/` in your project, organized by domain:
 
 ```
 .cspec/
-  manifest.md
-  user-stories.md
-  foundation.md
-  review-report.md
-  auth/
-    signup.md
-    login.md
-    password-reset.md
-  billing/
-    checkout.md
-    subscription-management.md
+  specs/
+    manifest.md
+    user-stories.md
+    foundation.md
+    review-report.md
+    auth/
+      signup.md
+      login.md
+      password-reset.md
+    billing/
+      checkout.md
+      subscription-management.md
   plans/
     backend-skeleton.md
     frontend-skeleton.md

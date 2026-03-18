@@ -21,9 +21,9 @@ The distinguishing factor is not a single long spec but a series of **self-conta
 
 | Skill | Input | Output | Purpose |
 |-------|-------|--------|---------|
-| `/cspec-discover` | Product idea (interview or document) | `.cspec/manifest.md`, `.cspec/user-stories.md` | Identify all vertical slices, group by domain, define ordering, write user stories |
-| `/cspec-write` | Manifest + user guidance | `.cspec/<domain>/<slice>.md` | Write full specs for individual slices (single or batch) |
-| `/cspec-foundation` | All written slice specs | `.cspec/foundation.md` | Derive shared infrastructure: tech stack, project structure, conventions, data models, shared services |
+| `/cspec-discover` | Product idea (interview or document) | `.cspec/specs/manifest.md`, `.cspec/specs/user-stories.md` | Identify all vertical slices, group by domain, define ordering, write user stories |
+| `/cspec-write` | Manifest + user guidance | `.cspec/specs/<domain>/<slice>.md` | Write full specs for individual slices (single or batch) |
+| `/cspec-foundation` | All written slice specs | `.cspec/specs/foundation.md` | Derive shared infrastructure: tech stack, project structure, conventions, data models, shared services |
 | `/cspec-review` | All specs (foundation + slices) | Validation report + fixes | Cross-validate consistency, completeness, and gaps across all specs |
 
 ### Execution Flow
@@ -38,24 +38,25 @@ The review skill identifies which phase to revisit based on the type of issue �
 
 ## Output Structure
 
-All output lives under `.cspec/` in the directory where Claude is invoked, organized by domain:
+All output lives under `.cspec/` in the directory where Claude is invoked. Spec artifacts live under `.cspec/specs/`, organized by domain:
 
 ```
 .cspec/
-  manifest.md
-  user-stories.md
-  foundation.md
-  review-report.md
-  auth/
-    signup.md
-    login.md
-    password-reset.md
-  billing/
-    checkout.md
-    subscription-management.md
-  content/
-    create-post.md
-    edit-post.md
+  specs/
+    manifest.md
+    user-stories.md
+    foundation.md
+    review-report.md
+    auth/
+      signup.md
+      login.md
+      password-reset.md
+    billing/
+      checkout.md
+      subscription-management.md
+    content/
+      create-post.md
+      edit-post.md
 ```
 
 ## Phase 1: Discovery (`/cspec-discover`)
@@ -78,7 +79,7 @@ The skill infers its mode from context: if the user provides a document (file pa
 6. Write user stories — for each slice, a story in "As a [user], I want to [action], so that [outcome]" format
 7. Output the manifest and user stories document
 
-### Manifest Structure (`.cspec/manifest.md`)
+### Manifest Structure (`.cspec/specs/manifest.md`)
 
 The manifest is the single source of truth for what was discovered:
 
@@ -92,7 +93,7 @@ The manifest is the single source of truth for what was discovered:
   - Dependencies (e.g., "requires auth slices to be built first")
   - Status (unwritten / written / foundation-reconciled / reviewed)
 
-### User Stories (`.cspec/user-stories.md`)
+### User Stories (`.cspec/specs/user-stories.md`)
 
 A separate, reviewable document containing all user stories grouped by domain. Each story maps to a slice in the manifest. User stories are the **source of truth** for what each slice should do — editing a story should be followed by re-running `/cspec-write` for the affected slice.
 
@@ -108,7 +109,7 @@ The manifest is updated by each phase:
 - **Single slice** — User picks a specific slice to spec out. The skill reads the manifest, focuses on that slice, and may ask clarifying questions before writing.
 - **Batch** — The skill works through all unwritten slices in manifest order. It pauses after each slice for user review before proceeding to the next. Each slice is a separate write operation, so the user can stop the batch at any point and resume later by re-invoking the skill (it picks up unwritten slices from the manifest).
 
-### Slice Spec Template (`.cspec/<domain>/<slice>.md`)
+### Slice Spec Template (`.cspec/specs/<domain>/<slice>.md`)
 
 Each spec uses a hybrid format — prose for narrative, structured/tabular for technical details.
 
@@ -138,13 +139,13 @@ Each slice spec must be fully understandable and buildable when paired only with
 
 ### Process
 
-1. **Read all written slice specs** — Parse every spec under `.cspec/`.
+1. **Read all written slice specs** — Parse every spec under `.cspec/specs/`.
 2. **Extract commonalities** — Identify entities, services, patterns, and conventions that appear across multiple slices.
 3. **Reconcile conflicts** — Identify conflicts across five types (data models, API conventions, business rules, behavior, terminology). For each: present the conflict, propose a resolution, get user approval, then write back.
 4. **Determine architecture and tech stack** — Use manifest tech preferences as starting point. Interview the user for any missing decisions (language, framework, database, auth, hosting).
 5. **Synthesize the foundation spec.**
 
-### Foundation Spec Template (`.cspec/foundation.md`)
+### Foundation Spec Template (`.cspec/specs/foundation.md`)
 
 **Prose sections:**
 
@@ -200,7 +201,7 @@ Note: `/cspec-foundation` has write access to slice spec files. After reconcilia
 
 ### Output
 
-The review produces a validation report written to `.cspec/review-report.md` and summarized in the conversation:
+The review produces a validation report written to `.cspec/specs/review-report.md` and summarized in the conversation:
 
 - **Pass** — Everything checks out, specs are ready for implementation.
 - **Issues** — Categorized findings (completeness, consistency, coverage, implementation leakage, dependency) with specific locations and suggested fixes. Each issue indicates which phase to re-run (e.g., "re-run `/cspec-write` for auth/login" or "re-run `/cspec-foundation`").

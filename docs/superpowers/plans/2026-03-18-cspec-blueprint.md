@@ -4,7 +4,7 @@
 
 **Goal:** Build a Claude skill (`/cspec-blueprint`) that produces backend class contracts and frontend component contracts from behavioral specs — either as Phase 5 of the C-Spec pipeline or standalone.
 
-**Architecture:** Single skill in its own directory under `skills/`. SKILL.md with YAML frontmatter follows the patterns established by the four existing C-Spec skills. Reads from `.cspec/` (or user-provided spec files) and writes to `.cspec/plans/`.
+**Architecture:** Single skill in its own directory under `skills/`. SKILL.md with YAML frontmatter follows the patterns established by the four existing C-Spec skills. Reads from `.cspec/specs/` (or user-provided spec files) and writes to `.cspec/plans/`.
 
 **Tech Stack:** Claude skill (markdown with YAML frontmatter), no code dependencies.
 
@@ -37,7 +37,7 @@ Follow with a one-line overview: produces backend system designs (class contract
 
 The skill must cover (check in this order):
 
-- C-Spec mode: first check for `.cspec/manifest.md` — if missing, direct to `/cspec-discover`. Then check for `.cspec/foundation.md` — if missing, direct to `/cspec-foundation`. Then check for slices in `reviewed` status — if none, direct to `/cspec-review`.
+- C-Spec mode: first check for `.cspec/specs/manifest.md` — if missing, direct to `/cspec-discover`. Then check for `.cspec/specs/foundation.md` — if missing, direct to `/cspec-foundation`. Then check for slices in `reviewed` status — if none, direct to `/cspec-review`.
 - Standalone mode: accepts any well-structured spec files the user provides.
 - Warn if manifest shows slices not yet in `reviewed` status — those will be skipped.
 
@@ -48,10 +48,10 @@ Pattern reference: `skills/cspec-review/SKILL.md` Prerequisites section (closest
 Two subsections:
 
 **C-Spec Mode (Phase 5):**
-- Reads `.cspec/foundation.md` for architecture, tech stack, shared data models, conventions
-- Reads all slice specs under `.cspec/<domain>/<slice>.md`
-- Reads `.cspec/manifest.md` for ordering and dependencies
-- Reads `.cspec/user-stories.md` for purpose and outcome context behind each slice
+- Reads `.cspec/specs/foundation.md` for architecture, tech stack, shared data models, conventions
+- Reads all slice specs under `.cspec/specs/<domain>/<slice>.md`
+- Reads `.cspec/specs/manifest.md` for ordering and dependencies
+- Reads `.cspec/specs/user-stories.md` for purpose and outcome context behind each slice
 - Individual slices must be in `reviewed` status to be blueprinted
 
 **Standalone Mode:**
