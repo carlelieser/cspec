@@ -11,7 +11,7 @@ C-Spec produces complete, interconnected specifications for MVPs. No implementat
 5. **No implementation details** — Specs describe what the user experiences, not how the system delivers it. The test: could a non-technical user understand this slice? Code, library choices, and framework patterns are banned. A single user action is a single slice — never split into technical approaches.
 6. **Hybrid format** — Prose for narrative (purpose, user flow), structured/tabular for technical details (data models, APIs, rules).
 
-## Four Phases
+## Five Phases
 
 | Phase | Skill | Input | Output |
 |-------|-------|-------|--------|
@@ -19,6 +19,7 @@ C-Spec produces complete, interconnected specifications for MVPs. No implementat
 | 2. Spec Writing | `/cspec-write` | Manifest | `.cspec/<domain>/<slice>.md` |
 | 3. Foundation | `/cspec-foundation` | All slice specs | `.cspec/foundation.md` |
 | 4. Review | `/cspec-review` | All specs | `.cspec/review-report.md` |
+| 5. Blueprint | `/cspec-blueprint` | Foundation + reviewed slice specs | `.cspec/plans/backend-skeleton.md`, `.cspec/plans/frontend-skeleton.md`, per-slice artifacts |
 
 ## Output Structure
 
@@ -28,6 +29,15 @@ C-Spec produces complete, interconnected specifications for MVPs. No implementat
   user-stories.md           # User stories grouped by domain (source of truth for slices)
   foundation.md             # Tech stack, shared models, conventions
   review-report.md          # Validation results
+  plans/
+    backend-skeleton.md
+    frontend-skeleton.md
+    backend/
+      <domain>/
+        <slice>.md
+    frontend/
+      <domain>/
+        <slice>.md
   <domain>/
     <slice>.md              # Individual slice specs
 ```
@@ -40,7 +50,7 @@ Single source of truth for discovered slices. Contains: product summary, tech pr
 
 Separate reviewable document (`.cspec/user-stories.md`) containing all user stories grouped by domain. Each story maps to a slice in the manifest and uses the format "As a [user], I want to [action], so that [outcome]." User stories are the source of truth for what each slice should do — editing a story should be followed by re-running `/cspec-write` for the affected slice.
 
-**Statuses:** `unwritten` → `written` → `reviewed`. Slices modified during foundation conflict resolution pass through `foundation-reconciled` before `reviewed`. See the authoritative Slice Status Lifecycle in `/cspec-discover`.
+**Statuses:** `unwritten` → `written` → `reviewed` → `unplanned` → `planned`. Slices modified during foundation conflict resolution pass through `foundation-reconciled` before `reviewed`. `/cspec-blueprint` sets `unplanned` on slices that have not yet been blueprinted, and `planned` once skeleton artifacts are generated. See the authoritative Slice Status Lifecycle in `/cspec-discover`.
 
 Updated by each phase. `/cspec-foundation` also sets `foundation_derived: yes` in the manifest.
 
@@ -76,6 +86,7 @@ Derived by reading all slices, extracting commonalities, and reconciling conflic
 - `/cspec-write` — Picks up unwritten slices; overwrites if re-run on existing slice
 - `/cspec-foundation` — Re-derives from current slice state
 - `/cspec-review` — Fresh validation pass
+- `/cspec-blueprint` — Re-generates skeletons from current specs. Picks up unplanned slices; overwrites if re-run on existing.
 
 Version history tracked by git.
 
@@ -95,6 +106,7 @@ skills/
   cspec-write/SKILL.md
   cspec-foundation/SKILL.md
   cspec-review/SKILL.md
+  cspec-blueprint/SKILL.md
 ```
 
 ## Design Reference
