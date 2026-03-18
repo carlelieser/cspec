@@ -9,7 +9,7 @@ Writes self-contained slice specs from the manifest. Each spec describes one ver
 
 ## Prerequisites
 
-Requires `.cspec/manifest.md` and `.cspec/user-stories.md`. If not found, direct the user to run `/cspec-discover` first.
+Requires `.cspec/specs/manifest.md` and `.cspec/specs/user-stories.md`. If not found, direct the user to run `/cspec-discover` first.
 
 ## Invocation Modes
 
@@ -21,15 +21,15 @@ If the user doesn't specify a mode, ask which they prefer.
 ## Spec Writing Process (per slice)
 
 1. Read the manifest for this slice's context (description, domain, dependencies).
-2. Read the slice's user story from `.cspec/user-stories.md` — this is the source of truth for what the slice should do.
+2. Read the slice's user story from `.cspec/specs/user-stories.md` — this is the source of truth for what the slice should do.
 3. If the user story and manifest description are too brief to write a full spec, ask clarifying questions — one at a time, prefer multiple choice.
-4. Write the spec to `.cspec/<domain>/<slice>.md` using the template below. Create the domain directory if it doesn't exist.
-5. Update the slice's status to `written` in `.cspec/manifest.md` (see Slice Status Lifecycle in `/cspec-discover`).
+4. Write the spec to `.cspec/specs/<domain>/<slice>.md` using the template below. Create the domain directory if it doesn't exist.
+5. Update the slice's status to `written` in `.cspec/specs/manifest.md` (see Slice Status Lifecycle in `/cspec-discover`).
 6. In batch mode: present the written spec to the user and wait for approval before moving to the next slice.
 
 ## Self-Containment Rule
 
-Each slice spec must be fully understandable and buildable when paired only with `.cspec/foundation.md`. This means:
+Each slice spec must be fully understandable and buildable when paired only with `.cspec/specs/foundation.md`. This means:
 
 - **No cross-slice references.** Never write "see the signup spec for the User model." If this slice needs the User model, describe it here.
 - **Duplication is intentional.** Multiple slices may describe the same entity. This is expected — the foundation derivation phase reconciles them later.
@@ -56,7 +56,7 @@ Specs describe **what the user experiences**, not how the system delivers it. Ap
 
 ## Slice Spec Template
 
-Write to `.cspec/<domain>/<slice>.md`:
+Write to `.cspec/specs/<domain>/<slice>.md`:
 
 ```markdown
 # [Slice Name]

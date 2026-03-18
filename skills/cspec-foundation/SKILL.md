@@ -5,11 +5,11 @@ description: Use when feature slice specs have been written and you need to deri
 
 # C-Spec Foundation
 
-Derives the shared foundation spec by reading all written slice specs, extracting common entities and patterns, reconciling conflicts, and synthesizing `.cspec/foundation.md`.
+Derives the shared foundation spec by reading all written slice specs, extracting common entities and patterns, reconciling conflicts, and synthesizing `.cspec/specs/foundation.md`.
 
 ## Prerequisites
 
-Requires `.cspec/manifest.md` with at least some slices in `written` status. If no manifest exists, direct the user to run `/cspec-discover` first. If no slices are written, direct to `/cspec-write`.
+Requires `.cspec/specs/manifest.md` with at least some slices in `written` status. If no manifest exists, direct the user to run `/cspec-discover` first. If no slices are written, direct to `/cspec-write`.
 
 Warn the user if the manifest shows unwritten slices — the foundation will be incomplete.
 
@@ -19,13 +19,13 @@ Slice specs describe what the user experiences and are deliberately implementati
 
 ## Derivation Process
 
-1. **Read all slice specs** — Read every `.md` file under `.cspec/` domain directories.
+1. **Read all slice specs** — Read every `.md` file under `.cspec/specs/` domain directories.
 2. **Extract commonalities** — Identify entities, services, patterns, and conventions that appear in two or more slices. Look for: shared data models, repeated API patterns, common business rules, and terminology used across slices.
 3. **Identify conflicts** — Find cases where the same entity is described differently across slices (different fields, types, constraints).
 4. **Resolve conflicts** — For each conflict, follow the Conflict Resolution Protocol below.
 5. **Update slice specs** — Write resolved definitions back to affected slice specs. Mark those slices as `foundation-reconciled` in the manifest (see Slice Status Lifecycle in `/cspec-discover`).
 6. **Determine architecture and tech stack** — Read the manifest's Tech Preferences. If preferences were recorded, use them as the starting point. If "None specified" or incomplete, ask the user about: language, framework, database, auth approach, and hosting/deployment. Present recommendations with rationale based on the product's needs (e.g., real-time features suggest WebSocket support, CRUD-heavy apps suit relational databases). One question at a time. Prefer multiple choice when possible.
-7. **Synthesize the foundation spec** — Write `.cspec/foundation.md` using the template below.
+7. **Synthesize the foundation spec** — Write `.cspec/specs/foundation.md` using the template below.
 8. **Update manifest** — Set `foundation_derived: yes` under Tech Preferences in the manifest.
 
 ## Conflict Resolution Protocol
@@ -52,7 +52,7 @@ Slice specs are **not stripped** of their entity descriptions after reconciliati
 
 ## Foundation Spec Template
 
-Write to `.cspec/foundation.md`:
+Write to `.cspec/specs/foundation.md`:
 
 ```markdown
 # [Product Name] — Foundation
@@ -135,10 +135,10 @@ Include the following sections as applicable to the product:
 
 ## Re-run Behavior
 
-Re-derives the foundation from the current state of all slice specs. Overwrites the previous `.cspec/foundation.md`. Re-runs the conflict resolution process if new conflicts are found.
+Re-derives the foundation from the current state of all slice specs. Overwrites the previous `.cspec/specs/foundation.md`. Re-runs the conflict resolution process if new conflicts are found.
 
 ## Completion
 
 After writing the foundation, inform the user:
 
-> "Foundation spec written to `.cspec/foundation.md`. [N] shared entities extracted, [N] conflicts resolved. Run `/cspec-review` to validate all specs for consistency."
+> "Foundation spec written to `.cspec/specs/foundation.md`. [N] shared entities extracted, [N] conflicts resolved. Run `/cspec-review` to validate all specs for consistency."

@@ -5,11 +5,11 @@ description: Use when specs (slices and foundation) have been written and you ne
 
 # C-Spec Review
 
-Cross-validates the entire spec suite for consistency, completeness, coverage, and dependency integrity. Produces a validation report at `.cspec/review-report.md`.
+Cross-validates the entire spec suite for consistency, completeness, coverage, and dependency integrity. Produces a validation report at `.cspec/specs/review-report.md`.
 
 ## Prerequisites
 
-Requires `.cspec/foundation.md` and at least one slice spec. If the foundation doesn't exist, direct the user to run `/cspec-foundation` first.
+Requires `.cspec/specs/foundation.md` and at least one slice spec. If the foundation doesn't exist, direct the user to run `/cspec-foundation` first.
 
 Warn the user if the manifest shows unwritten slices — the review will be incomplete.
 
@@ -19,7 +19,7 @@ Run all five categories of checks against every spec file.
 
 ### Completeness
 
-- Every slice in the manifest has a corresponding spec file at `.cspec/<domain>/<slice>.md`.
+- Every slice in the manifest has a corresponding spec file at `.cspec/specs/<domain>/<slice>.md`.
 - Every spec has all required sections filled: Purpose, User Flow, Data Requirements, API Endpoints, Business Rules, Error Scenarios, Acceptance Criteria.
 - No empty stubs, placeholder text, or TODO markers.
 - Acceptance criteria are concrete and testable — flag vague criteria like "should work well" or "handles errors gracefully."
@@ -55,7 +55,7 @@ Run all five categories of checks against every spec file.
 
 ## Review Report
 
-Write the report to `.cspec/review-report.md` and summarize findings in the conversation.
+Write the report to `.cspec/specs/review-report.md` and summarize findings in the conversation.
 
 ```markdown
 # Spec Review Report
@@ -74,7 +74,7 @@ Write the report to `.cspec/review-report.md` and summarize findings in the conv
 ### Completeness
 
 **[Issue title]**
-- **Location:** `.cspec/[domain]/[slice].md`, section [name]
+- **Location:** `.cspec/specs/[domain]/[slice].md`, section [name]
 - **Finding:** [specific description of what's missing or inadequate]
 - **Suggested fix:** [concrete recommendation]
 - **Re-run:** `/cspec-write` for [slice-name]
@@ -82,7 +82,7 @@ Write the report to `.cspec/review-report.md` and summarize findings in the conv
 ### Consistency
 
 **[Issue title]**
-- **Location:** `.cspec/[domain]/[slice].md` vs `.cspec/foundation.md`
+- **Location:** `.cspec/specs/[domain]/[slice].md` vs `.cspec/specs/foundation.md`
 - **Finding:** [specific description of the inconsistency]
 - **Suggested fix:** [concrete recommendation]
 - **Re-run:** `/cspec-foundation`
@@ -90,7 +90,7 @@ Write the report to `.cspec/review-report.md` and summarize findings in the conv
 ### Coverage
 
 **[Issue title]**
-- **Location:** `.cspec/[domain]/[slice].md`, section [name]
+- **Location:** `.cspec/specs/[domain]/[slice].md`, section [name]
 - **Finding:** [specific description of the gap]
 - **Suggested fix:** [concrete recommendation]
 - **Re-run:** `/cspec-discover` | `/cspec-write` for [slice-name]
@@ -98,7 +98,7 @@ Write the report to `.cspec/review-report.md` and summarize findings in the conv
 ### Implementation Leakage
 
 **[Issue title]**
-- **Location:** `.cspec/[domain]/[slice].md`, section [name]
+- **Location:** `.cspec/specs/[domain]/[slice].md`, section [name]
 - **Finding:** [specific description of the implementation detail]
 - **Suggested fix:** [concrete recommendation]
 - **Re-run:** `/cspec-write` for [slice-name]
@@ -106,7 +106,7 @@ Write the report to `.cspec/review-report.md` and summarize findings in the conv
 ### Dependency
 
 **[Issue title]**
-- **Location:** `.cspec/manifest.md`
+- **Location:** `.cspec/specs/manifest.md`
 - **Finding:** [specific description of the dependency issue]
 - **Suggested fix:** [concrete recommendation]
 - **Re-run:** `/cspec-discover`
@@ -130,11 +130,11 @@ Each issue must indicate which phase to re-run:
 
 ## Re-run Behavior
 
-Always runs a fresh validation pass. Overwrites the previous `.cspec/review-report.md`.
+Always runs a fresh validation pass. Overwrites the previous `.cspec/specs/review-report.md`.
 
 ## Completion
 
 - **If PASS:** "All specs validated. Run `/cspec-blueprint` to generate implementation blueprints."
-- **If ISSUES FOUND:** Present a summary of issue counts by category in the conversation. Direct the user to `.cspec/review-report.md` for full details and suggested re-runs. After fixes, the user should run `/cspec-review` again.
+- **If ISSUES FOUND:** Present a summary of issue counts by category in the conversation. Direct the user to `.cspec/specs/review-report.md` for full details and suggested re-runs. After fixes, the user should run `/cspec-review` again.
 
 After passing review, update all slice statuses to `reviewed` in the manifest.

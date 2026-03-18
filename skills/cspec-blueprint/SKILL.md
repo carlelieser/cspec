@@ -13,8 +13,8 @@ Check in this order:
 
 **C-Spec mode:**
 
-1. Check for `.cspec/manifest.md` — if missing, direct the user to run `/cspec-discover`.
-2. Check for `.cspec/foundation.md` — if missing, direct the user to run `/cspec-foundation`.
+1. Check for `.cspec/specs/manifest.md` — if missing, direct the user to run `/cspec-discover`.
+2. Check for `.cspec/specs/foundation.md` — if missing, direct the user to run `/cspec-foundation`.
 3. Check for slices in `reviewed` status — if none, direct the user to run `/cspec-review`.
 
 Warn if the manifest shows slices not yet in `reviewed` status — those will be skipped.
@@ -27,10 +27,10 @@ Warn if the manifest shows slices not yet in `reviewed` status — those will be
 
 ### C-Spec Mode (Phase 5)
 
-- Reads `.cspec/foundation.md` for architecture, tech stack, shared data models, and conventions
-- Reads all slice specs under `.cspec/<domain>/<slice>.md`
-- Reads `.cspec/manifest.md` for ordering and dependencies
-- Reads `.cspec/user-stories.md` for the purpose and outcome context behind each slice
+- Reads `.cspec/specs/foundation.md` for architecture, tech stack, shared data models, and conventions
+- Reads all slice specs under `.cspec/specs/<domain>/<slice>.md`
+- Reads `.cspec/specs/manifest.md` for ordering and dependencies
+- Reads `.cspec/specs/user-stories.md` for the purpose and outcome context behind each slice
 - Individual slices must be in `reviewed` status to be blueprinted
 
 ### Standalone Mode

@@ -5,7 +5,7 @@ description: Use when starting a new product specification, gathering requiremen
 
 # C-Spec Discover
 
-Discovers and inventories all vertical slices for an MVP, outputting a structured manifest to `.cspec/manifest.md` and user stories to `.cspec/user-stories.md`.
+Discovers and inventories all vertical slices for an MVP, outputting a structured manifest to `.cspec/specs/manifest.md` and user stories to `.cspec/specs/user-stories.md`.
 
 ## Input Mode Detection
 
@@ -15,7 +15,7 @@ Determine mode from context:
 
 ## Re-run Behavior
 
-If `.cspec/manifest.md` already exists, present the existing slices and ask the user:
+If `.cspec/specs/manifest.md` already exists, present the existing slices and ask the user:
 - **Amend** — Add, remove, or modify slices in the existing manifest. Preserve statuses of existing slices.
 - **Start fresh** — Discard existing manifest and user stories, begin discovery from scratch. Warn that this does not delete already-written slice spec files.
 
@@ -42,7 +42,7 @@ If `.cspec/manifest.md` already exists, present the existing slices and ask the 
 
 ## Manifest Output
 
-Write the manifest to `.cspec/manifest.md` using this template:
+Write the manifest to `.cspec/specs/manifest.md` using this template:
 
 ```markdown
 # [Product Name] — Manifest
@@ -95,7 +95,7 @@ The manifest also gains a `foundation_derived: true` line (added below the Tech 
 
 ## User Stories Output
 
-Write user stories to `.cspec/user-stories.md` using this template:
+Write user stories to `.cspec/specs/user-stories.md` using this template:
 
 ```markdown
 # [Product Name] — User Stories
@@ -120,4 +120,4 @@ User stories are the **source of truth** for what each slice should do. Editing 
 
 After writing both files, inform the user:
 
-> "Manifest written to `.cspec/manifest.md` and user stories to `.cspec/user-stories.md` with [N] slices across [N] domains. Review and adjust the user stories as needed, then run `/cspec-write` to begin writing slice specs."
+> "Manifest written to `.cspec/specs/manifest.md` and user stories to `.cspec/specs/user-stories.md` with [N] slices across [N] domains. Review and adjust the user stories as needed, then run `/cspec-write` to begin writing slice specs."
