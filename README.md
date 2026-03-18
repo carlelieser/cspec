@@ -2,7 +2,7 @@
 
 AI agents build better software when they get better specs. But most specifications are either monolithic documents too large to fit in context, or scattered notes that leave agents guessing about data models, edge cases, and how features connect. The result: inconsistent implementations, missing error handling, and features that don't work together.
 
-C-Spec is a methodology and set of four skills that produce complete, interconnected specifications for any MVP. Instead of one massive document, C-Spec generates a series of **self-contained vertical slices** — each describing a single user flow end-to-end — plus a **foundation spec** that captures shared infrastructure. An agent picks up one slice, pairs it with the foundation, and has everything it needs to build that feature without knowledge of any other slice.
+C-Spec is a methodology and set of five skills that produce complete, interconnected specifications for any MVP. Instead of one massive document, C-Spec generates a series of **self-contained vertical slices** — each describing a single user flow end-to-end — plus a **foundation spec** that captures shared infrastructure. An agent picks up one slice, pairs it with the foundation, and has everything it needs to build that feature without knowledge of any other slice.
 
 ## Install
 
@@ -12,7 +12,7 @@ npx skills add carlelieser/cspec
 
 ## Usage
 
-C-Spec works in four phases, each invoked as a separate skill:
+C-Spec works in five phases, each invoked as a separate skill:
 
 ### 1. Discover
 
@@ -46,6 +46,14 @@ Reads all written slice specs, extracts shared entities and patterns, reconciles
 
 Cross-validates every spec for completeness, consistency, coverage, and dependency integrity. Produces a report at `.cspec/review-report.md` with categorized findings and tells you exactly which phase to re-run for each issue.
 
+### 5. Blueprint
+
+```
+/cspec-blueprint
+```
+
+Reads the foundation and reviewed slice specs, then produces implementation blueprints — backend class contracts and frontend component contracts. Works in three stages: analysis (identifies class and component candidates), skeleton (shared architecture), then per-slice artifacts. Also works standalone with any well-structured spec files.
+
 ## Output
 
 All specs live under `.cspec/` in your project, organized by domain:
@@ -63,6 +71,15 @@ All specs live under `.cspec/` in your project, organized by domain:
   billing/
     checkout.md
     subscription-management.md
+  plans/
+    backend-skeleton.md
+    frontend-skeleton.md
+    auth/
+      signup-backend.md
+      signup-frontend.md
+    billing/
+      checkout-backend.md
+      checkout-frontend.md
 ```
 
 ## No Implementation Details
