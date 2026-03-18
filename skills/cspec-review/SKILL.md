@@ -134,7 +134,7 @@ Always runs a fresh validation pass. Overwrites the previous `.cspec/review-repo
 
 ## Completion
 
-- **If PASS:** "All specs validated. The spec suite is ready for implementation."
+- **If PASS:** "All specs validated. Run `/cspec-blueprint` to generate implementation blueprints."
 - **If ISSUES FOUND:** Present a summary of issue counts by category in the conversation. Direct the user to `.cspec/review-report.md` for full details and suggested re-runs. After fixes, the user should run `/cspec-review` again.
 
 After passing review, update all slice statuses to `reviewed` in the manifest.
