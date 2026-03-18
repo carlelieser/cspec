@@ -133,11 +133,17 @@ After the user approves the skeletons, work through each slice producing artifac
   backend-skeleton.md
   frontend-skeleton.md
   backend/
-    <domain>/
-      <slice>.md
+    auth/
+      signup.md
+      login.md
+    billing/
+      checkout.md
   frontend/
-    <domain>/
-      <slice>.md
+    auth/
+      signup.md
+      login.md
+    billing/
+      checkout.md
 ```
 
 For backend-only or frontend-only products, only the applicable skeleton and subdirectory are produced.
