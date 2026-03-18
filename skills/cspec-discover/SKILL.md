@@ -5,7 +5,7 @@ description: Use when starting a new product specification, gathering requiremen
 
 # C-Spec Discover
 
-Discovers and inventories all vertical slices for an MVP, outputting a structured manifest to `.cspec/manifest.md`.
+Discovers and inventories all vertical slices for an MVP, outputting a structured manifest to `.cspec/manifest.md` and user stories to `.cspec/user-stories.md`.
 
 ## Input Mode Detection
 
@@ -17,7 +17,7 @@ Determine mode from context:
 
 If `.cspec/manifest.md` already exists, present the existing slices and ask the user:
 - **Amend** — Add, remove, or modify slices in the existing manifest. Preserve statuses of existing slices.
-- **Start fresh** — Discard existing manifest and begin discovery from scratch. Warn that this does not delete already-written slice spec files.
+- **Start fresh** — Discard existing manifest and user stories, begin discovery from scratch. Warn that this does not delete already-written slice spec files.
 
 ## Interactive Process
 
@@ -26,7 +26,8 @@ If `.cspec/manifest.md` already exists, present the existing slices and ask the 
 3. **Break into vertical slices** — Each slice is one user flow at user-story granularity (e.g., "user signs up with email" not "authentication system"). One flow per slice.
 4. **Group into domains** — Cluster related slices under domain names (e.g., auth, billing, content).
 5. **Determine ordering** — Identify dependencies between slices and assign priority. Slices with no dependencies come first.
-6. **Present for validation** — Show the complete slice inventory to the user for review before writing the manifest.
+6. **Write user stories** — For each slice, write a user story in the format "As a [user], I want to [action], so that [outcome]."
+7. **Present for validation** — Show the complete slice inventory and user stories to the user for review before writing.
 
 ## Document-Driven Process
 
@@ -34,7 +35,8 @@ If `.cspec/manifest.md` already exists, present the existing slices and ask the 
 2. **Extract slices and domains** — Identify vertical slices and group them.
 3. **Present findings** — Show extracted slices to the user for validation.
 4. **Fill gaps (hybrid)** — Ask follow-up questions one at a time for anything unclear or missing from the document.
-5. **Finalize** — Confirm the complete inventory with the user before writing.
+5. **Write user stories** — For each extracted slice, write a user story.
+6. **Finalize** — Confirm the complete inventory and user stories with the user before writing.
 
 ## Manifest Output
 
@@ -70,8 +72,31 @@ Write the manifest to `.cspec/manifest.md` using this template:
 
 All slices start with status `unwritten`. Priority 1 is highest (build first).
 
+## User Stories Output
+
+Write user stories to `.cspec/user-stories.md` using this template:
+
+```markdown
+# [Product Name] — User Stories
+
+## [Domain Name]
+
+### [slice-name]
+As a [user type], I want to [action], so that [outcome].
+
+### [slice-name]
+As a [user type], I want to [action], so that [outcome].
+
+## [Domain Name]
+
+### [slice-name]
+As a [user type], I want to [action], so that [outcome].
+```
+
+User stories are the **source of truth** for what each slice should do. Editing a user story here should be followed by re-running `/cspec-write` for the affected slice to update its spec.
+
 ## Completion
 
-After writing the manifest, inform the user:
+After writing both files, inform the user:
 
-> "Manifest written to `.cspec/manifest.md` with [N] slices across [N] domains. Run `/cspec-write` to begin writing slice specs."
+> "Manifest written to `.cspec/manifest.md` and user stories to `.cspec/user-stories.md` with [N] slices across [N] domains. Review and adjust the user stories as needed, then run `/cspec-write` to begin writing slice specs."

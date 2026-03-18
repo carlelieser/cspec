@@ -20,7 +20,7 @@ C-Spec works in four phases, each invoked as a separate skill:
 /cspec-discover
 ```
 
-Interview-driven or document-driven discovery of your product idea. Identifies all vertical slices (user-story granularity), groups them into domains, and outputs a structured manifest to `.cspec/manifest.md`.
+Interview-driven or document-driven discovery of your product idea. Identifies all vertical slices (user-story granularity), groups them into domains, writes user stories, and outputs a structured manifest to `.cspec/manifest.md` and user stories to `.cspec/user-stories.md`. Review and adjust the user stories before moving to the next phase — they're the source of truth for what each slice should do.
 
 ### 2. Write
 
@@ -53,6 +53,7 @@ All specs live under `.cspec/` in your project, organized by domain:
 ```
 .cspec/
   manifest.md
+  user-stories.md
   foundation.md
   review-report.md
   auth/

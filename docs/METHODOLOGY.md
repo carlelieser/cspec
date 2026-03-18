@@ -14,7 +14,7 @@ C-Spec produces complete, interconnected specifications for MVPs. No implementat
 
 | Phase | Skill | Input | Output |
 |-------|-------|-------|--------|
-| 1. Discovery | `/cspec-discover` | Product idea or document | `.cspec/manifest.md` |
+| 1. Discovery | `/cspec-discover` | Product idea or document | `.cspec/manifest.md`, `.cspec/user-stories.md` |
 | 2. Spec Writing | `/cspec-write` | Manifest | `.cspec/<domain>/<slice>.md` |
 | 3. Foundation | `/cspec-foundation` | All slice specs | `.cspec/foundation.md` |
 | 4. Review | `/cspec-review` | All specs | `.cspec/review-report.md` |
@@ -24,6 +24,7 @@ C-Spec produces complete, interconnected specifications for MVPs. No implementat
 ```
 .cspec/
   manifest.md              # Slice inventory, domains, ordering, statuses
+  user-stories.md           # User stories grouped by domain (source of truth for slices)
   foundation.md             # Tech stack, shared models, conventions
   review-report.md          # Validation results
   <domain>/
@@ -34,11 +35,17 @@ C-Spec produces complete, interconnected specifications for MVPs. No implementat
 
 Single source of truth for discovered slices. Contains: product summary, tech preferences, domain listing, and slice inventory (name, domain, description, priority, dependencies, status).
 
+## User Stories
+
+Separate reviewable document (`.cspec/user-stories.md`) containing all user stories grouped by domain. Each story maps to a slice in the manifest and uses the format "As a [user], I want to [action], so that [outcome]." User stories are the source of truth for what each slice should do — editing a story should be followed by re-running `/cspec-write` for the affected slice.
+
 **Statuses:** unwritten → written → foundation-reconciled → reviewed
 
 Updated by each phase. `/cspec-foundation` also sets `foundation_derived: true`.
 
 ## Slice Spec Template
+
+Written from the corresponding user story in `.cspec/user-stories.md`.
 
 **Prose:** Purpose, User Flow
 
@@ -63,7 +70,7 @@ Derived by reading all slices, extracting commonalities, and reconciling conflic
 
 ## Re-run Behavior
 
-- `/cspec-discover` — Amend or replace existing manifest (preserves written specs unless slices removed)
+- `/cspec-discover` — Amend or replace existing manifest and user stories (preserves written specs unless slices removed)
 - `/cspec-write` — Picks up unwritten slices; overwrites if re-run on existing slice
 - `/cspec-foundation` — Re-derives from current slice state
 - `/cspec-review` — Fresh validation pass

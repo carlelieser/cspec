@@ -21,7 +21,7 @@ The distinguishing factor is not a single long spec but a series of **self-conta
 
 | Skill | Input | Output | Purpose |
 |-------|-------|--------|---------|
-| `/cspec-discover` | Product idea (interview or document) | `.cspec/manifest.md` | Identify all vertical slices, group by domain, define ordering |
+| `/cspec-discover` | Product idea (interview or document) | `.cspec/manifest.md`, `.cspec/user-stories.md` | Identify all vertical slices, group by domain, define ordering, write user stories |
 | `/cspec-write` | Manifest + user guidance | `.cspec/<domain>/<slice>.md` | Write full specs for individual slices (single or batch) |
 | `/cspec-foundation` | All written slice specs | `.cspec/foundation.md` | Derive shared infrastructure: tech stack, project structure, conventions, data models, shared services |
 | `/cspec-review` | All specs (foundation + slices) | Validation report + fixes | Cross-validate consistency, completeness, and gaps across all specs |
@@ -43,6 +43,7 @@ All output lives under `.cspec/` in the directory where Claude is invoked, organ
 ```
 .cspec/
   manifest.md
+  user-stories.md
   foundation.md
   auth/
     signup.md
@@ -72,7 +73,8 @@ The skill infers its mode from context: if the user provides a document (file pa
 2. Identify user-facing features and break them into vertical slices (user-story granularity)
 3. Group slices into domains
 4. Determine ordering — which slices should be built first based on dependencies
-5. Output the manifest
+5. Write user stories — for each slice, a story in "As a [user], I want to [action], so that [outcome]" format
+6. Output the manifest and user stories document
 
 ### Manifest Structure (`.cspec/manifest.md`)
 
@@ -87,6 +89,10 @@ The manifest is the single source of truth for what was discovered:
   - Priority/ordering (which slices come first)
   - Dependencies (e.g., "requires auth slices to be built first")
   - Status (unwritten / written / foundation-reconciled / reviewed)
+
+### User Stories (`.cspec/user-stories.md`)
+
+A separate, reviewable document containing all user stories grouped by domain. Each story maps to a slice in the manifest. User stories are the **source of truth** for what each slice should do — editing a story should be followed by re-running `/cspec-write` for the affected slice.
 
 The manifest is updated by each phase:
 - `/cspec-write` marks slices as "written"
@@ -197,7 +203,7 @@ If issues are found, the user can fix them manually or re-run the indicated phas
 
 Each skill is idempotent when re-invoked:
 
-- **`/cspec-discover`** — If a manifest already exists, the skill presents the existing slices and asks the user whether to start fresh or amend (add/remove/modify slices). Existing written specs are not deleted unless the user explicitly removes a slice.
+- **`/cspec-discover`** — If a manifest already exists, the skill presents the existing slices and asks the user whether to start fresh or amend (add/remove/modify slices and user stories). Existing written specs are not deleted unless the user explicitly removes a slice.
 - **`/cspec-write`** — Picks up unwritten slices from the manifest. If invoked for a slice that already has a spec, it overwrites with a new version.
 - **`/cspec-foundation`** — Re-derives from the current state of all slice specs, overwriting the previous foundation.
 - **`/cspec-review`** — Always runs a fresh validation pass, overwriting the previous report.
