@@ -65,10 +65,33 @@ All specs live under `.cspec/` in your project, organized by domain:
     subscription-management.md
 ```
 
+## No Implementation Details
+
+C-Spec deliberately excludes implementation details from every spec it produces. This is the most important rule in the methodology.
+
+**The test:** Could you explain this slice to a non-technical user and have it make sense? If you need to explain a technical concept for the slice to make sense, it contains implementation details.
+
+**Why:**
+
+- **Separation of concerns.** Specs define *what* the user experiences. Implementation defines *how* the system delivers it. Mixing them couples decisions that should be independent.
+- **No premature decisions.** Implementation choices made during spec writing are uninformed — you don't yet know what shared patterns will emerge, what the foundation will look like, or what the tech stack constrains.
+- **Context efficiency.** Implementation detail bloats specs, eating context window that agents need for the actual build.
+
+**In practice**, this means slices describe what the user does, not what the system does under the hood:
+
+| Allowed (user experience) | Banned (implementation detail) |
+|---------------------------|-------------------------------|
+| "User searches their items" | "Full-text search" and "Semantic search" as separate slices |
+| "User records audio, transcription starts automatically" | "Use Whisper API for transcription" |
+| "User signs up with email" | "Hash password with bcrypt" |
+| "User chats with an AI assistant" | "RAG pipeline with vector embeddings" |
+
+A single user action should be a single slice — even if the system uses multiple technical approaches to fulfill it. Splitting "user searches" into "full-text search" and "semantic search" is an architectural decision disguised as a spec. The spec should say the user can search; implementation decides how.
+
 ## Principles
 
 - **Self-contained slices** — Each spec is buildable with only the foundation. No cross-slice knowledge required.
 - **Foundation derived, not designed** — Shared infrastructure is extracted from slices after they're written, not imposed upfront.
 - **User-story granularity** — One user flow per spec. "User signs up with email," not "authentication system."
-- **No implementation code** — Specs define behavior, data, and acceptance criteria. Implementation is a separate concern.
+- **No implementation details** — Specs describe what the user experiences, not how the system delivers it. See above.
 - **Intentional duplication** — Slices describe their own entities independently. The foundation phase reconciles them.

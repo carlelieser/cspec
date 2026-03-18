@@ -12,7 +12,7 @@ The distinguishing factor is not a single long spec but a series of **self-conta
 - **Self-contained specs** — Each slice is fully buildable when paired only with the foundation spec. No cross-slice knowledge required.
 - **Foundation is derived, not designed** — Shared concerns (data models, tech stack, conventions) are extracted from slices after they're written, not imposed top-down.
 - **Intentional duplication** — Slices may describe the same entity differently. This is expected and reconciled during foundation derivation.
-- **No implementation code** — Specs describe behavior, data, APIs, and acceptance criteria. Implementation is a separate concern.
+- **No implementation details** — Specs describe what the user experiences, not how the system delivers it. The test: could you explain this slice to a non-technical user and have it make sense? A single user action is a single slice — even if the system uses multiple technical approaches to fulfill it. Code snippets, library choices, framework patterns, and algorithm descriptions are all banned.
 - **Phased user control** — The user decides when to move between phases and can re-run any phase independently.
 
 ## Skill Architecture

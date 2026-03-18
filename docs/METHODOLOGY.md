@@ -8,7 +8,8 @@ C-Spec produces complete, interconnected specifications for MVPs. No implementat
 2. **Self-contained specs** — Each slice is buildable with only the foundation spec. No cross-slice knowledge.
 3. **Foundation derived last** — Shared infrastructure is extracted from slices, not designed upfront.
 4. **Intentional duplication** — Slices describe their own entities. Conflicts reconciled during foundation derivation.
-5. **Hybrid format** — Prose for narrative (purpose, user flow), structured/tabular for technical details (data models, APIs, rules).
+5. **No implementation details** — Specs describe what the user experiences, not how the system delivers it. The test: could a non-technical user understand this slice? Code, library choices, and framework patterns are banned. A single user action is a single slice — never split into technical approaches.
+6. **Hybrid format** — Prose for narrative (purpose, user flow), structured/tabular for technical details (data models, APIs, rules).
 
 ## Four Phases
 

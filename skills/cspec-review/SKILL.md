@@ -37,6 +37,14 @@ Run all four categories of checks against every spec file.
 - Edge cases and error scenarios are addressed, not just happy paths.
 - No implicit features — behavior assumed but never specified in any spec.
 
+### Implementation Leakage
+
+- No code snippets, pseudocode, or algorithm descriptions in any spec.
+- No specific library or package choices (e.g., "use bcrypt," "use Whisper API").
+- No framework-specific patterns (e.g., "use a React context provider").
+- No slices that split a single user action into technical approaches (e.g., "full-text search" and "semantic search" instead of "user searches items"). Apply the test: could a non-technical user understand this slice name?
+- Slice specs describe what the user experiences, not how the system delivers it.
+
 ### Dependency Integrity
 
 - Slice ordering in the manifest has no circular dependencies.

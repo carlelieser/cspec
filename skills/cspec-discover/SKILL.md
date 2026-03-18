@@ -23,7 +23,7 @@ If `.cspec/manifest.md` already exists, present the existing slices and ask the 
 
 1. **Understand the product** — Ask what it is, who it's for, what problem it solves. One question at a time. Prefer multiple choice when possible.
 2. **Identify features** — Ask about the major user-facing capabilities.
-3. **Break into vertical slices** — Each slice is one user flow at user-story granularity (e.g., "user signs up with email" not "authentication system"). One flow per slice.
+3. **Break into vertical slices** — Each slice is one user flow at user-story granularity (e.g., "user signs up with email" not "authentication system"). One flow per slice. **No implementation details in slices.** Apply the test: could you explain this slice to a non-technical user? If a slice name requires technical knowledge to understand, it's an implementation detail, not a user story. A single user action is a single slice — even if the system uses multiple technical approaches to fulfill it. Example: "user searches their items" is one slice, NOT "full-text search" and "semantic search" as separate slices.
 4. **Group into domains** — Cluster related slices under domain names (e.g., auth, billing, content).
 5. **Determine ordering** — Identify dependencies between slices and assign priority. Slices with no dependencies come first.
 6. **Write user stories** — For each slice, write a user story in the format "As a [user], I want to [action], so that [outcome]."

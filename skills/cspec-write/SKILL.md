@@ -35,6 +35,25 @@ Each slice spec must be fully understandable and buildable when paired only with
 - **Duplication is intentional.** Multiple slices may describe the same entity. This is expected — the foundation derivation phase reconciles them later.
 - **Include everything.** Data models, API shapes, business rules, error handling — if an agent needs it to build this slice, it must be in this spec.
 
+## No Implementation Details
+
+Specs describe **what the user experiences**, not how the system delivers it. Apply this test: could you explain this spec to a non-technical user and have it make sense?
+
+**Banned:**
+- Code snippets, pseudocode, or algorithm descriptions
+- Specific library or package choices (e.g., "use bcrypt," "use Whisper API")
+- Database queries or schema DDL
+- Framework-specific patterns (e.g., "use a React context provider")
+- Internal function, class, or method designs
+- Splitting one user action into multiple technical approaches (e.g., "full-text search" and "semantic search" instead of "user searches items")
+
+**Allowed:**
+- Data model shapes (entities, fields, types, constraints) — *what* is stored
+- API contracts (endpoints, request/response shapes) — *what* the interface looks like
+- Business rules with concrete values ("password must be 8+ characters")
+- Behavior descriptions ("the system sends a confirmation email")
+- Acceptance criteria ("user sees results within 2 seconds")
+
 ## Slice Spec Template
 
 Write to `.cspec/<domain>/<slice>.md`:
