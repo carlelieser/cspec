@@ -58,7 +58,7 @@ Before producing any artifacts, read everything and build a mental model.
 3. **Identify frontend candidates** — Components implied by user flows: pages/screens, forms, lists, detail views, navigation elements, shared UI patterns.
 4. **Map dependencies** — Which classes depend on which. Which components contain or communicate with which others.
 5. **Identify shared patterns** — Base classes, interfaces, or abstract types that multiple slices will need. Shared component patterns (e.g., a standard form layout, a common list/detail pattern). Prefer flat hierarchies — one level of abstraction over deep inheritance chains.
-6. **Present findings** — Summarize candidate counts and breakdown to the user. Let the user adjust before proceeding to skeleton generation.
+6. **Present findings** — Summarize to the user: "I found N backend class candidates across M domains and N frontend component candidates. Here's the breakdown..." The user can adjust before the skill proceeds to skeleton generation.
 
 This stage produces no files — it is analysis only, presented in conversation for validation.
 
@@ -72,11 +72,11 @@ After the user validates the analysis, produce skeleton files (one or both depen
 
 Captures the system-wide backend architecture:
 
-- **Architecture Pattern** — The structural pattern being used and how layers relate
-- **Shared Interfaces** — Interfaces/abstract types that multiple slices implement
+- **Architecture Pattern** — The structural pattern being used (e.g., layered, hexagonal) and how layers relate
+- **Shared Interfaces** — Interfaces/abstract types that multiple slices implement (e.g., a base repository interface, a service interface pattern)
 - **Base Classes** — Abstract classes with their public method signatures
-- **Shared Services** — Classes that serve multiple slices with their contracts
-- **Dependency Graph** — How the major class categories relate: controllers → services → repositories → entities
+- **Shared Services** — Classes that serve multiple slices with their contracts (auth service, validation, error handling)
+- **Dependency Graph** — Visual or tabular representation of how the major class categories relate: controllers → services → repositories → entities
 
 Each entry includes: name, responsibility (one sentence), public method signatures (inputs and return types), and which slices use it.
 
@@ -85,13 +85,11 @@ Each entry includes: name, responsibility (one sentence), public method signatur
 Captures the system-wide component architecture:
 
 - **Component Hierarchy** — The top-level layout tree: app shell, navigation, page containers, shared layout regions
-- **Shared Components** — Reusable components that appear in multiple slices with their props interfaces
+- **Shared Components** — Reusable components (buttons, form fields, modals, list items) that appear in multiple slices with their props interfaces
 - **State Patterns** — What state is global vs. local, how components access shared state
 - **Routing Structure** — Page-level component-to-route mapping
 
 Each entry includes: name, purpose (one sentence), props interface, key state it manages, and which slices use it.
-
-Only applicable skeletons are produced (based on artifact type detection).
 
 > "Skeletons written to `.cspec/plans/`. Review the backend and frontend architecture above, then confirm to proceed with per-slice blueprints."
 
@@ -106,8 +104,8 @@ After the user approves the skeletons, work through each slice producing artifac
   - Which skeleton class it extends or interface it implements (if any)
   - Public method signatures: method name, parameters with types, return type, one-line description
   - Dependencies: which other classes it depends on (from this slice or from the skeleton)
-- **Slice-Specific Business Logic** — Business rules from the spec mapped to class methods
-- **Error Handling** — Error scenarios from the spec mapped to exceptions/error types and the responsible class
+- **Slice-Specific Business Logic** — Which business rules from the spec map to which class methods
+- **Error Handling** — How error scenarios from the spec map to exceptions/error types and which class is responsible
 
 ### Frontend Slice (`.cspec/plans/frontend/<domain>/<slice>.md`)
 
@@ -117,8 +115,8 @@ After the user approves the skeletons, work through each slice producing artifac
   - Props interface: prop name, type, required/optional, description
   - Key state: state name, type, description of what triggers changes
   - Which skeleton components it uses or composes
-- **User Flow Mapping** — Steps from the spec's User Flow mapped to component interactions
-- **Error States** — Error scenarios from the spec mapped to UI states and the responsible component
+- **User Flow Mapping** — How the steps in the spec's User Flow section map to component interactions (step 1 → user interacts with ComponentA, step 2 → ComponentB receives data and displays result)
+- **Error States** — How error scenarios from the spec surface in the UI and which component is responsible for displaying each
 
 ### Batch Behavior
 
