@@ -74,7 +74,7 @@ Captures the system-wide backend architecture:
 
 - **Architecture Pattern** — The structural pattern being used (e.g., layered, hexagonal) and how layers relate
 - **Shared Interfaces** — Interfaces/abstract types that multiple slices implement (e.g., a base repository interface, a service interface pattern)
-- **Base Classes** — Abstract classes with their public method signatures
+- **Base Classes** — Abstract classes that provide shared behavior with their public method signatures
 - **Shared Services** — Classes that serve multiple slices with their contracts (auth service, validation, error handling)
 - **Dependency Graph** — Visual or tabular representation of how the major class categories relate: controllers → services → repositories → entities
 
@@ -102,7 +102,7 @@ After the user approves the skeletons, work through each slice producing artifac
 - **Classes** — Each class this slice introduces, with:
   - Name and responsibility (one sentence)
   - Which skeleton class it extends or interface it implements (if any)
-  - Public method signatures: method name, parameters with types, return type, one-line description
+  - Public method signatures: method name, parameters with types, return type, one-line description of what it does
   - Dependencies: which other classes it depends on (from this slice or from the skeleton)
 - **Slice-Specific Business Logic** — Which business rules from the spec map to which class methods
 - **Error Handling** — How error scenarios from the spec map to exceptions/error types and which class is responsible
