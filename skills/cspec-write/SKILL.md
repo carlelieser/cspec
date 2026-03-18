@@ -24,7 +24,7 @@ If the user doesn't specify a mode, ask which they prefer.
 2. Read the slice's user story from `.cspec/user-stories.md` — this is the source of truth for what the slice should do.
 3. If the user story and manifest description are too brief to write a full spec, ask clarifying questions — one at a time, prefer multiple choice.
 4. Write the spec to `.cspec/<domain>/<slice>.md` using the template below. Create the domain directory if it doesn't exist.
-5. Update the slice's status to `written` in `.cspec/manifest.md`.
+5. Update the slice's status to `written` in `.cspec/manifest.md` (see Slice Status Lifecycle in `/cspec-discover`).
 6. In batch mode: present the written spec to the user and wait for approval before moving to the next slice.
 
 ## Self-Containment Rule
@@ -126,7 +126,7 @@ Write to `.cspec/<domain>/<slice>.md`:
 
 ### Template Notes
 
-- **All sections are required** except State Transitions (include only when applicable).
+- **All sections are required** except State Transitions (include only when applicable). If a required section does not apply to a slice (e.g., a purely client-side feature with no API endpoints), write "Not applicable — [reason]" rather than omitting the section.
 - **Acceptance Criteria** must be concrete and testable — not vague statements like "should work well" or "handles errors gracefully."
 - **Data Requirements** tables must include types and constraints, not just field names.
 - **API Endpoints** must include request/response shapes, not just paths.

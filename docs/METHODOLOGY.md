@@ -40,9 +40,9 @@ Single source of truth for discovered slices. Contains: product summary, tech pr
 
 Separate reviewable document (`.cspec/user-stories.md`) containing all user stories grouped by domain. Each story maps to a slice in the manifest and uses the format "As a [user], I want to [action], so that [outcome]." User stories are the source of truth for what each slice should do — editing a story should be followed by re-running `/cspec-write` for the affected slice.
 
-**Statuses:** unwritten → written → foundation-reconciled → reviewed
+**Statuses:** `unwritten` → `written` → `reviewed`. Slices modified during foundation conflict resolution pass through `foundation-reconciled` before `reviewed`. See the authoritative Slice Status Lifecycle in `/cspec-discover`.
 
-Updated by each phase. `/cspec-foundation` also sets `foundation_derived: true`.
+Updated by each phase. `/cspec-foundation` also sets `foundation_derived: yes` in the manifest.
 
 ## Slice Spec Template
 
@@ -50,7 +50,7 @@ Written from the corresponding user story in `.cspec/user-stories.md`.
 
 **Prose:** Purpose, User Flow
 
-**Structured:** Data Requirements, API Endpoints/Interfaces, State Transitions, Business Rules, Error Scenarios, Acceptance Criteria
+**Structured:** Data Requirements, API Endpoints, State Transitions, Business Rules, Error Scenarios, Acceptance Criteria
 
 Each slice must be fully buildable when paired only with the foundation spec.
 
@@ -67,6 +67,7 @@ Derived by reading all slices, extracting commonalities, and reconciling conflic
 - **Completeness** — All manifest slices have specs, all sections filled, acceptance criteria testable
 - **Consistency** — Models match foundation, conventions uniform, terminology consistent
 - **Coverage** — No orphaned entities, no missing slices, edge cases addressed
+- **Implementation leakage** — No code, library choices, framework patterns, or DDL in specs
 - **Dependency integrity** — No circular dependencies, ordering achievable
 
 ## Re-run Behavior
@@ -78,10 +79,18 @@ Derived by reading all slices, extracting commonalities, and reconciling conflic
 
 Version history tracked by git.
 
+## Scalability
+
+C-Spec is designed for MVPs with **5–20 slices**. At this scale, conflict resolution is manageable, the agent can hold all slice specs in context during foundation derivation, and review reports are actionable.
+
+For larger projects (20+ slices), partition by domain — run a separate C-Spec process per domain, then write a meta-foundation that stitches the domain foundations together.
+
+For any project, an optional early foundation checkpoint after every 5–7 slices can catch structural conflicts before writing more slices.
+
 ## Skill Locations
 
 ```
-~/.claude/skills/
+skills/
   cspec-discover/SKILL.md
   cspec-write/SKILL.md
   cspec-foundation/SKILL.md

@@ -1,6 +1,6 @@
 ---
 name: cspec-review
-description: Use when all specs (slices and foundation) have been written and you need to cross-validate for consistency, completeness, and gaps. Activates after /cspec-foundation, when user wants to verify specs are ready for implementation.
+description: Use when specs (slices and foundation) have been written and you need to cross-validate for consistency, completeness, and gaps. Activates after /cspec-foundation, when user wants to verify specs are ready for implementation.
 ---
 
 # C-Spec Review
@@ -15,7 +15,7 @@ Warn the user if the manifest shows unwritten slices — the review will be inco
 
 ## Validation Checks
 
-Run all four categories of checks against every spec file.
+Run all five categories of checks against every spec file.
 
 ### Completeness
 
@@ -41,7 +41,9 @@ Run all four categories of checks against every spec file.
 
 - No code snippets, pseudocode, or algorithm descriptions in any spec.
 - No specific library or package choices (e.g., "use bcrypt," "use Whisper API").
+- No database queries or schema DDL.
 - No framework-specific patterns (e.g., "use a React context provider").
+- No internal function, class, or method designs.
 - No slices that split a single user action into technical approaches (e.g., "full-text search" and "semantic search" instead of "user searches items"). Apply the test: could a non-technical user understand this slice name?
 - Slice specs describe what the user experiences, not how the system delivers it.
 
@@ -93,6 +95,14 @@ Write the report to `.cspec/review-report.md` and summarize findings in the conv
 - **Suggested fix:** [concrete recommendation]
 - **Re-run:** `/cspec-discover` | `/cspec-write` for [slice-name]
 
+### Implementation Leakage
+
+**[Issue title]**
+- **Location:** `.cspec/[domain]/[slice].md`, section [name]
+- **Finding:** [specific description of the implementation detail]
+- **Suggested fix:** [concrete recommendation]
+- **Re-run:** `/cspec-write` for [slice-name]
+
 ### Dependency
 
 **[Issue title]**
@@ -114,6 +124,7 @@ Each issue must indicate which phase to re-run:
 
 - **Missing slices** (not in manifest) → `/cspec-discover`
 - **Incomplete or incorrect slice specs** → `/cspec-write` for the specific slice
+- **Implementation details in specs** → `/cspec-write` for the specific slice
 - **Foundation gaps or model inconsistencies** → `/cspec-foundation`
 - **Dependency ordering problems** → `/cspec-discover`
 

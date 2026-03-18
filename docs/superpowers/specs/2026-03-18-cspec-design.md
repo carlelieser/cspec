@@ -45,6 +45,7 @@ All output lives under `.cspec/` in the directory where Claude is invoked, organ
   manifest.md
   user-stories.md
   foundation.md
+  review-report.md
   auth/
     signup.md
     login.md
@@ -73,8 +74,9 @@ The skill infers its mode from context: if the user provides a document (file pa
 2. Identify user-facing features and break them into vertical slices (user-story granularity)
 3. Group slices into domains
 4. Determine ordering — which slices should be built first based on dependencies
-5. Write user stories — for each slice, a story in "As a [user], I want to [action], so that [outcome]" format
-6. Output the manifest and user stories document
+5. Ask about tech preferences — language, framework, database, hosting constraints
+6. Write user stories — for each slice, a story in "As a [user], I want to [action], so that [outcome]" format
+7. Output the manifest and user stories document
 
 ### Manifest Structure (`.cspec/manifest.md`)
 
@@ -118,7 +120,7 @@ Each spec uses a hybrid format — prose for narrative, structured/tabular for t
 **Structured sections:**
 
 - **Data Requirements** — Tables defining entities, fields, types, constraints. Only entities this slice needs — the foundation reconciles shared ones later.
-- **API Endpoints / Interfaces** — Method, path, request/response shapes, status codes.
+- **API Endpoints** — Method, path, request/response shapes, status codes.
 - **State Transitions** — If applicable, the states an entity moves through and what triggers transitions.
 - **Business Rules** — Enumerated rules and edge cases (e.g., "password must be 8+ characters," "free tier limited to 3 projects").
 - **Error Scenarios** — What can go wrong, how it should be handled, what the user sees.
@@ -138,8 +140,9 @@ Each slice spec must be fully understandable and buildable when paired only with
 
 1. **Read all written slice specs** — Parse every spec under `.cspec/`.
 2. **Extract commonalities** — Identify entities, services, patterns, and conventions that appear across multiple slices.
-3. **Reconcile conflicts** — Where two slices describe the same entity differently (e.g., User model has different fields), merge them into a unified definition and flag contradictions for the user.
-4. **Synthesize the foundation spec.**
+3. **Reconcile conflicts** — Identify conflicts across five types (data models, API conventions, business rules, behavior, terminology). For each: present the conflict, propose a resolution, get user approval, then write back.
+4. **Determine architecture and tech stack** — Use manifest tech preferences as starting point. Interview the user for any missing decisions (language, framework, database, auth, hosting).
+5. **Synthesize the foundation spec.**
 
 ### Foundation Spec Template (`.cspec/foundation.md`)
 
@@ -159,13 +162,14 @@ Each slice spec must be fully understandable and buildable when paired only with
 
 ### Conflict Resolution
 
-When the skill finds conflicting descriptions across slices:
+When the skill finds conflicting descriptions across slices (data models, API conventions, business rules, behavior, or terminology):
 
-1. Flag the conflict to the user.
+1. Present the conflict to the user with affected files.
 2. Propose a resolution.
-3. Update the affected slice specs to match the resolved definition and mark them as "foundation-reconciled" in the manifest.
+3. Ask the user to approve or modify the resolution.
+4. Write back the resolved definition to affected slice specs and mark them as "foundation-reconciled" in the manifest. If a rename is involved, propagate across all sections of affected slices.
 
-Note: `/cspec-foundation` has write access to slice spec files. It may modify data model tables and entity descriptions in slices to resolve conflicts. After reconciliation, slice specs retain their self-contained descriptions (they are not stripped), but those descriptions are now consistent with the foundation.
+Note: `/cspec-foundation` has write access to slice spec files. After reconciliation, slice specs retain their self-contained descriptions (they are not stripped), but those descriptions are now consistent with the foundation.
 
 ## Phase 4: Review (`/cspec-review`)
 
@@ -186,6 +190,10 @@ Note: `/cspec-foundation` has write access to slice spec files. It may modify da
 - No missing slices — if a slice references behavior that doesn't exist in any spec (e.g., "user receives a notification" but there's no notification slice), flag it.
 - Edge cases and error scenarios are addressed, not just happy paths.
 
+**Implementation leakage:**
+- No code snippets, pseudocode, algorithm descriptions, database queries/DDL, library choices, framework patterns, or internal function/class/method designs in any spec.
+- No slices that split a single user action into technical approaches.
+
 **Dependency integrity:**
 - Slice ordering in the manifest is achievable — no circular dependencies.
 - Each slice's declared dependencies actually exist and would be built before it.
@@ -195,7 +203,7 @@ Note: `/cspec-foundation` has write access to slice spec files. It may modify da
 The review produces a validation report written to `.cspec/review-report.md` and summarized in the conversation:
 
 - **Pass** — Everything checks out, specs are ready for implementation.
-- **Issues** — Categorized findings (completeness, consistency, coverage, dependency) with specific locations and suggested fixes. Each issue indicates which phase to re-run (e.g., "re-run `/cspec-write` for auth/login" or "re-run `/cspec-foundation`").
+- **Issues** — Categorized findings (completeness, consistency, coverage, implementation leakage, dependency) with specific locations and suggested fixes. Each issue indicates which phase to re-run (e.g., "re-run `/cspec-write` for auth/login" or "re-run `/cspec-foundation`").
 
 If issues are found, the user can fix them manually or re-run the indicated phases, then run `/cspec-review` again.
 
